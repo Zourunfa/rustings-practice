@@ -2,10 +2,9 @@
 // Create an array with at least 100 elements in it where the ??? is.
 // Execute `rustlings hint primitive_types3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 fn main() {
-    let a = ???
+    // 数组里面每一个元素均为 “a”，数组总长度为 555.
+    let a = ["a"; 555];
 
     if a.len() >= 100 {
         println!("Wow, that's a big array!");
