@@ -14,8 +14,6 @@
 
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 use std::collections::HashMap;
 
 // A structure to store team name and its goal details.
@@ -40,7 +38,35 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+
+        /*
+
+        使用 HashMap::entry() 方法获取哈希表中的值时，该方法返回一个可变引用 (reference)，它是一个包含键值对的 Entry 枚举。这个可变引用有一个指向内部存储值的指针，我们需要使用该指针来访问存储在哈希表中的 Team 结构体的字段。
+
+        因为 entry() 方法的返回值是一个指向被存储在哈希表的“值”，
+        即存储在哈希表中的 Team 结构体的可变引用，因此我们需要对其进行解引用操作。
+        这样可以在不复制整个 Team 结构的情况下访问它，从而提高程序的效率。当我们将 (*scope) 应用到指向可变引用的指针时，
+        实际上是对指针指向的值进行了解引用操作，以获得对存储在哈希表中的 Team 结构体的字段的访问权限。
+                 */
+        let score = scores.entry(team_1_name.clone()).or_insert({
+            Team {
+                name: team_1_name,
+                goals_scored: 0,
+                goals_conceded: 0,
+            }
+        });
+        (*score).goals_scored += team_1_score;
+        (*score).goals_conceded += team_2_score;
+
+        let score = scores.entry(team_2_name.clone()).or_insert(Team {
+            name: team_2_name,
+            goals_scored: 0,
+            goals_conceded: 0,
+        });
+        (*score).goals_scored += team_2_score;
+        (*score).goals_conceded += team_1_score;
     }
+
     scores
 }
 
