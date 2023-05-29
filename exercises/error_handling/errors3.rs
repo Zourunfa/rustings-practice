@@ -5,8 +5,8 @@
 // Execute `rustlings hint errors3` or use the `hint` watch subcommand for a hint.
 
 use std::num::ParseIntError;
-
-fn main() {
+// ？操作符只能用于返回类型为Result<T, E1> 的函数
+fn main() -> Result<(), ParseIntError> {
     let mut tokens = 100;
     let pretend_user_input = "8";
 
