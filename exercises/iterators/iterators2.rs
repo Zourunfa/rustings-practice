@@ -8,11 +8,20 @@
 // Step 1.
 // Complete the `capitalize_first` function.
 // "hello" -> "Hello"
+
+
+fn is_all_lowercase(s: &str) -> bool {
+  s.chars().all(|c| c.is_lowercase())
+}
 pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
     match c.next() {
         None => String::new(),
-        Some(first) => ???,
+        Some(first) => {
+          if(is_all_lowercase(first)){
+            
+          }
+        },
     }
 }
 
