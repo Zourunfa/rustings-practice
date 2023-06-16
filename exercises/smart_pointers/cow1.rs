@@ -1,15 +1,15 @@
 // cow1.rs
 
-// This exercise explores the Cow, or Clone-On-Write type.
-// Cow is a clone-on-write smart pointer.
-// It can enclose and provide immutable access to borrowed data, and clone the data lazily when mutation or ownership is required.
-// The type is designed to work with general borrowed data via the Borrow trait.
-//
-// This exercise is meant to show you what to expect when passing data to Cow.
-// Fix the unit tests by checking for Cow::Owned(_) and Cow::Borrowed(_) at the TODO markers.
+/*
 
-// I AM NOT DONE
+在这个练习中，我们将探讨 Cow 类型，它是一个写时复制的智能指针。
+Cow 可以包装和提供对借用数据的不可变访问，并在需要修改或拥有权时惰性地克隆数据。
 
+为了修复这个练习中的单元测试，我们需要检查 Cow 类型的值是否是
+ Cow::Owned(_) 或 Cow::Borrowed(_)。如果值是 Cow::Owned(_)，
+ 则表示它已经被克隆并拥有了所有权，可以修改它。
+如果值是 Cow::Borrowed(_)，则表示它是一个借用值，不能被修改。
+ */
 use std::borrow::Cow;
 
 fn abs_all<'a, 'b>(input: &'a mut Cow<'b, [i32]>) -> &'a mut Cow<'b, [i32]> {
@@ -17,6 +17,7 @@ fn abs_all<'a, 'b>(input: &'a mut Cow<'b, [i32]>) -> &'a mut Cow<'b, [i32]> {
         let v = input[i];
         if v < 0 {
             // Clones into a vector if not already owned.
+            // 使用了 Cow 类型的 to_mut 方法。to_mut 方法会将 Cow 类型的值转换为一个可变引用，如果值不是拥有所有权的，则会发生克隆。
             input.to_mut()[i] = -v;
         }
     }
@@ -44,7 +45,8 @@ mod tests {
         let slice = [0, 1, 2];
         let mut input = Cow::from(&slice[..]);
         match abs_all(&mut input) {
-            // TODO
+            Cow::Borrowed(_) => Ok(()),
+            _ => Err("Expected borrowed value"),
         }
     }
 
@@ -57,7 +59,8 @@ mod tests {
         let slice = vec![0, 1, 2];
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
-            // TODO
+            Cow::Owned(_) => Ok(()),
+            _ => Err("Expected owned value"),
         }
     }
 
@@ -69,7 +72,8 @@ mod tests {
         let slice = vec![-1, 0, 1];
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
-            // TODO
+            Cow::Owned(_) => Ok(()),
+            _ => Err("Expected owned value"),
         }
     }
 }
